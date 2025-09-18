@@ -1,0 +1,287 @@
+<!DOCTYPE html>  
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carta para Marianita :3</title>
+  <style>
+    /* ----------------- Fondo animado ----------------- */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #FF7BA9;
+      animation: backgroundPulse 6s ease-in-out infinite;
+    }
+    @keyframes backgroundPulse {
+      0%   { background-color: #FF7BA9; }
+      50%  { background-color: #FF99C1; }
+      100% { background-color: #FF7BA9; }
+    }
+
+    .screen {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      position: relative;
+    }
+    .active {
+      display: flex;
+    }
+    .password-screen {
+      flex-direction: column;
+    }
+
+    .password-box {
+      background: #fff0f6;
+      border: 3px solid #f8bbd0;
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0px 6px 20px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 60px);
+      gap: 10px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+    .key {
+      background-color: #f8bbd0;
+      border: none;
+      border-radius: 10px;
+      font-size: 20px;
+      padding: 15px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .key:hover {
+      background-color: #f48fb1;
+    }
+    .key:active {
+      transform: scale(0.95);
+    }
+
+    /* 🎭 Efecto difuminado en la contraseña */
+    .input-display {
+      font-size: 24px;
+      margin-top: 20px;
+      letter-spacing: 8px;
+      transition: filter 0.4s ease-in-out;
+    }
+    .blurred {
+      filter: blur(6px);
+    }
+
+    .notepad {
+      background-color: #fff0f6;
+      border: 3px solid #f8bbd0;
+      padding: 20px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      text-align: left;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      line-height: 1.6;
+      box-shadow: 0px 6px 20px rgba(0,0,0,0.15);
+      position: relative;
+      min-height: 400px;
+    }
+    .notepad h3 {
+      margin-top: 0;
+    }
+
+    .gift-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .gift-icon img {
+      width: 80px;
+    }
+
+    /* ----------------- Estilos del botón animado ----------------- */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500&display=swap');
+    @font-face {
+      font-family: "Mona Sans";
+      src: url("https://assets.codepen.io/64/Mona-Sans.woff2") format("woff2 supports variations"),
+           url("https://assets.codepen.io/64/Mona-Sans.woff2") format("woff2-variations");
+      font-weight: 100 1000;
+    }
+    :root {
+      --icon-scale: 0;
+      --icon-rotation: 0;
+      --icon-opacity: 0;
+      --color-pale-pink: hsl(272 16% 56.99%);
+      --color-dark-purple: hsl(269.35 100% 21%);
+      --color-light-purple: hsl(269.99 100% 40%);
+      --color-bubblegum-pink: hsl(300deg 97% 68%);
+    }
+
+    /* Posicionamiento del botón en la carta */
+    .button-container {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+    }
+
+    .button-container button {
+      all: unset;
+      cursor: pointer;
+      font-size: 1.2em;
+      font-weight: 1000;
+      color: white;
+      position: relative;
+      transition: transform .2s ease;
+    }
+    .button-container button:before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom right, var(--color-pale-pink), var(--color-pale-pink));
+      transform: scale(0.9);
+      outline: 0px solid var(--color-light-purple);
+      border-radius: 1e5px;
+      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+    .button-container button span:nth-child(2) {
+      position: relative;
+      padding: 0.3em 0.9em;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      display: block;
+      border-radius: 1e5px;
+      transition: transform 0.2s ease;
+    }
+    .button-container button:hover {
+      --icon-scale: 1;
+      --icon-rotation: 0;
+      --icon-opacity: 1;
+    }
+    .button-container button:hover:before {
+      transform: scale(1.05);
+      background: linear-gradient(to bottom right, var(--color-dark-purple), var(--color-light-purple));
+      box-shadow: 0 4px 22px -8px var(--color-bubblegum-pink);
+    }
+    .button-container button:hover span:nth-child(2) {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+<div id="passwordScreen" class="screen password-screen active">
+  <div class="password-box">
+    <h2>🔒 Enter password</h2>
+    <div class="input-display" id="inputDisplay">••••••••</div>
+    <div class="keypad">
+      <button class="key" onclick="enterDigit('1')">1</button>
+      <button class="key" onclick="enterDigit('2')">2</button>
+      <button class="key" onclick="enterDigit('3')">3</button>
+      <button class="key" onclick="enterDigit('4')">4</button>
+      <button class="key" onclick="enterDigit('5')">5</button>
+      <button class="key" onclick="enterDigit('6')">6</button>
+      <button class="key" onclick="enterDigit('7')">7</button>
+      <button class="key" onclick="enterDigit('8')">8</button>
+      <button class="key" onclick="enterDigit('9')">9</button>
+      <div></div>
+      <button class="key" onclick="enterDigit('0')">0</button>
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<div id="notepadScreen" class="screen">
+  <div class="notepad" id="carta">
+    <div class="gift-icon">
+      <img src="rosaroja.png" alt="Rosa">
+    </div>
+    <h3>📅 18 Setiembre 2025 </h3>
+    <h4>💌 Para Mariana </h4>
+    <p>
+      Quiero que sepas lo feliz que estoy de haberte conocido. Desde entonces muchas cosas cambiaron para mí.
+      Me hiciste sentir acompañado y apoyado justo cuando lo necesitaba.
+    </p>
+    <p>
+      Gracias por esas risas sin motivo y por las conversaciones donde puedo ser yo mismo.
+      Sabes que a veces estoy un poco loco, pero me gusta saber que me entiendes.
+    </p>
+    <p>
+      Por eso, y por muchas cosas más, me alegra poder celebrar contigo este cumpleaños. 
+      Espero sea un año lleno de momentos increíbles para ti.
+    </p>
+    <p>
+      Feliz Cumpleaños Marianita. ♡
+    </p>
+
+    <!-- 🔘 Botón flotante en la esquina inferior derecha -->
+    <div class="button-container">
+      <button id="btnPlay">
+        <span></span>
+        <span>Play</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 🎶 Tu canción -->
+<audio id="miCancion" src="cumple.mp3" loop></audio>
+
+<script>
+  const correctPassword = '73120622';
+  let input = '';
+  const display = document.getElementById('inputDisplay');
+
+  function enterDigit(digit) {
+    if (input.length < 8) {
+      input += digit;
+    }
+
+    // 🔥 activar blur cada vez que se presiona una tecla
+    display.classList.add("blurred");
+
+    display.textContent = input.padEnd(8, '•'); 
+
+    // quitar blur cuando se complete la contraseña
+    if (input.length === 8) {
+      setTimeout(() => {
+        display.classList.remove("blurred");
+      }, 600); // tiempo extra de difuminado
+      if (input === correctPassword) {
+        document.getElementById('passwordScreen').classList.remove('active');
+        document.getElementById('notepadScreen').classList.add('active');
+      } else {
+        alert('Contraseña incorrecta, intenta de nuevo');
+        input = '';
+        display.textContent = '••••••••';
+        display.classList.remove("blurred");
+      }
+    }
+  }
+
+  // 🎵 Control de la canción
+  const botonPlay = document.getElementById("btnPlay");
+  const audio = document.getElementById("miCancion");
+
+  botonPlay.addEventListener("click", () => {
+    if (audio.paused) {
+      audio.play();
+      botonPlay.querySelector("span:nth-child(2)").textContent = "Pause";
+    } else {
+      audio.pause();
+      botonPlay.querySelector("span:nth-child(2)").textContent = "Play";
+    }
+  });
+</script>
+</body>
+</html>
